@@ -1,8 +1,8 @@
 local piggyBackInProgress = false
 
-RegisterCommand("sirtla",function(source, args)
+RegisterCommand("sirtla",function()
 	if not piggyBackInProgress then
-		piggyBackInProgress = true
+	  piggyBackInProgress = true
 		local player = PlayerPedId()	
 		lib = 'anim@arena@celeb@flat@paired@no_props@'
 		anim1 = 'piggyback_c_player_a'
@@ -25,8 +25,8 @@ RegisterCommand("sirtla",function(source, args)
 		end
 	else
 		piggyBackInProgress = false
-		ClearPedSecondaryTask(GetPlayerPed(-1))
-		DetachEntity(GetPlayerPed(-1), true, false)
+		ClearPedSecondaryTask(PlayerPedId())
+		DetachEntity(PlayerPedId(), true, false)
 		local closestPlayer = GetClosestPlayer(3)
 		target = GetPlayerServerId(closestPlayer)
 		TriggerServerEvent("cmg2_animations:stop",target)
@@ -34,8 +34,8 @@ RegisterCommand("sirtla",function(source, args)
 end,false)
 
 RegisterNetEvent('cmg2_animations:syncTarget')
-AddEventHandler('cmg2_animations:syncTarget', function(target, animationLib, animation2, distans, distans2, height, length,spin,controlFlag)
-	local playerPed = GetPlayerPed(-1)
+AddEventHandler('cmg2_animations:syncTarget', function(target, animationLib, animation2, distans, distans2, height, length, spin, controlFlag)
+	local playerPed = PlayerPedId()
 	local targetPed = GetPlayerPed(GetPlayerFromServerId(target))
 	piggyBackInProgress = true
 	print("triggered cmg2_animations:syncTarget")
@@ -45,14 +45,14 @@ AddEventHandler('cmg2_animations:syncTarget', function(target, animationLib, ani
 		Citizen.Wait(10)
 	end
 	if spin == nil then spin = 180.0 end
-	AttachEntityToEntity(GetPlayerPed(-1), targetPed, 0, distans2, distans, height, 0.5, 0.5, spin, false, false, false, false, 2, false)
+	AttachEntityToEntity(PlayerPedId(), targetPed, 0, distans2, distans, height, 0.5, 0.5, spin, false, false, false, false, 2, false)
 	if controlFlag == nil then controlFlag = 0 end
 	TaskPlayAnim(playerPed, animationLib, animation2, 8.0, -8.0, length, controlFlag, 0, false, false, false)
 end)
 
 RegisterNetEvent('cmg2_animations:syncMe')
-AddEventHandler('cmg2_animations:syncMe', function(animationLib, animation,length,controlFlag,animFlag)
-	local playerPed = GetPlayerPed(-1)
+AddEventHandler('cmg2_animations:syncMe', function(animationLib, animation, length, controlFlag, animFlag)
+	local playerPed = PlayerPedId()
 	print("triggered cmg2_animations:syncMe")
 	RequestAnimDict(animationLib)
 
@@ -69,8 +69,8 @@ end)
 RegisterNetEvent('cmg2_animations:cl_stop')
 AddEventHandler('cmg2_animations:cl_stop', function()
 	piggyBackInProgress = false
-	ClearPedSecondaryTask(GetPlayerPed(-1))
-	DetachEntity(GetPlayerPed(-1), true, false)
+	ClearPedSecondaryTask(PlayerPedId())
+	DetachEntity(PlayerPedId(), true, false)
 end)
 
 function GetPlayers()
@@ -89,7 +89,7 @@ function GetClosestPlayer(radius)
     local players = GetPlayers()
     local closestDistance = -1
     local closestPlayer = -1
-    local ply = GetPlayerPed(-1)
+    local ply = PlayerPedId()
     local plyCoords = GetEntityCoords(ply, 0)
 
     for index,value in ipairs(players) do
