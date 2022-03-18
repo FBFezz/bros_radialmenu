@@ -1,6 +1,7 @@
-resource_manifest_version "44febabe-d386-4d18-afbe-5e627f4af937"
+fx_version 'bodacious'
+game 'gta5'
 
-client_script {
+client_scripts {
     "config.lua",
     "radialmenu.lua"
 }
@@ -8,8 +9,8 @@ client_script {
 ui_page "html/menu.html"
 
 files {
-	"html/menu.html",
-	"html/raphael.min.js",
+    "html/menu.html",
+    "html/raphael.min.js",
     "html/wheelnav.min.js",
     "html/doors.png",
     "html/engine.png",
